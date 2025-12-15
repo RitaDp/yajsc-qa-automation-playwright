@@ -1,0 +1,28 @@
+{
+  "name": "yajsc-qa-automation-playwright",
+  "version": "1.0.0",
+  "description": "AQA test automation framework built using Playwright, Node.js, and JavaScript/TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RitaDp/yajsc-qa-automation-playwright.git"
+  },
+  "keywords": [],
+  "author": "Marharyta Rovna",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RitaDp/yajsc-qa-automation-playwright/issues"
+  },
+  "homepage": "https://github.com/RitaDp/yajsc-qa-automation-playwright#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.1.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}
