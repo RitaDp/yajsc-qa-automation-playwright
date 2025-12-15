@@ -5,8 +5,10 @@ test.describe("Login", () => {
     await page.goto("/auth/login");
     await expect(page).toHaveURL(/.*\/auth\/login/);
 
-    await page.getByPlaceholder('email').fill('customer@practicesoftwaretesting.com');
-    await page.getByPlaceholder('password').fill('welcome01');
+   // await page.getByPlaceholder('email').fill('customer@practicesoftwaretesting.com'); 
+    await page.getByPlaceholder('email').fill(process.env.TEST_EMAIL!);
+   // await page.getByPlaceholder('password').fill('welcome01');
+    await page.getByPlaceholder('password').fill(process.env.TEST_PASSWORD!);
 
     await page.locator('[data-test="login-submit"]').click();
 
