@@ -4,7 +4,9 @@
   "description": "AQA test automation framework built using Playwright, Node.js, and JavaScript/TypeScript.",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -19,8 +21,14 @@
   },
   "homepage": "https://github.com/RitaDp/yajsc-qa-automation-playwright#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@playwright/test": "^1.57.0",
-    "@types/node": "^24.1.0"
+    "@stylistic/eslint-plugin": "^5.6.1",
+    "@types/node": "^24.1.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-playwright": "^2.4.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.50.0"
   },
   "dependencies": {
     "dotenv": "^17.2.3"
