@@ -32,6 +32,6 @@ export class LoginPage {
     await this.passwordField.click();
     await this.passwordField.pressSequentially(user.password, { delay: 100 });
 
-    await this.submitButton.click();
+    await this.submitButton.click({ delay: 150 });
   }
 }
