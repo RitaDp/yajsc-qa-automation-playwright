@@ -26,12 +26,8 @@ export class LoginPage {
   }
 
   async performLogin(user: UserCredentials): Promise<void> { 
-    await this.emailField.click();
-    await this.emailField.pressSequentially(user.email, { delay: 100 });
-
-    await this.passwordField.click();
-    await this.passwordField.pressSequentially(user.password, { delay: 100 });
-
-    await this.submitButton.click({ delay: 150 });
+    await this.emailField.fill(user.email);
+    await this.passwordField.fill(user.password);
+    await this.submitButton.click();
   }
 }
