@@ -9,6 +9,6 @@ export class AccountPage {
   constructor(page: Page) {
     this.page = page;
     this.header = new HeaderFragment(page);
-    this.title = this.page.getByTestId('page-title');
+    this.title = page.getByTestId('page-title');
   }
 }

@@ -16,9 +16,9 @@ export class LoginPage {
   constructor(page: Page) {
     this.page = page;
     this.header = new HeaderFragment(page);
-    this.emailField = this.page.getByTestId('email');
-    this.passwordField = this.page.getByTestId('password');
-    this.submitButton = this.page.getByTestId('login-submit');
+    this.emailField = page.getByTestId('email');
+    this.passwordField = page.getByTestId('password');
+    this.submitButton = page.getByTestId('login-submit');
   }
 
   async navigateLoginPage(): Promise<void> {
