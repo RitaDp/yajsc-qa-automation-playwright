@@ -9,7 +9,7 @@ export class HomePage {
   constructor(page: Page) {
     this.page = page;
     this.header = new HeaderFragment(page);
-    this.productCard = page.locator('.card');
+    this.productCard = page.getByTestId('product-name');
   }
 
   async navigateHomePage(): Promise<void> {

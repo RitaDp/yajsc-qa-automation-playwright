@@ -11,11 +11,11 @@ export class HeaderFragment {
 
   constructor(page: Page) {
     this.page = page;
-    this.homeLink = this.page.locator('[data-test="nav-home"]');
-    this.categoriesButton = this.page.locator('[data-test="nav-categories"]');
-    this.contactLink = this.page.locator('[data-test="nav-contact"]');
-    this.signInLink = this.page.locator('[data-test="nav-sign-in"]');
-    this.userMenuButton = this.page.locator('[data-test="nav-menu"]');
-    this.languageSelect = this.page.locator('[data-test="language-select"]');
+    this.homeLink = this.page.getByTestId('nav-home');
+    this.categoriesButton = this.page.getByTestId('nav-categories');
+    this.contactLink = this.page.getByTestId('nav-contact');
+    this.signInLink = this.page.getByTestId('nav-sign-in');
+    this.userMenuButton = this.page.getByTestId('nav-menu');
+    this.languageSelect = this.page.getByTestId('language-select');
   }
 }
