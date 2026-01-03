@@ -1,13 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
-import * as dotenv from 'dotenv';
 import path from 'path';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
 
 chromium.use(stealth());
-
 if (!process.env.CI) {
-  dotenv.config({ path: path.resolve(__dirname, '.env') });
+  require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 }
 
 /**
