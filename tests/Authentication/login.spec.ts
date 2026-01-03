@@ -6,7 +6,7 @@ test.describe('Authentication - Login', () => {
     const accountPage = new AccountPage(page);
 
     await accountPage.navigateAccountPage();
-    await accountPage.header.userMenuButton.waitFor({ state: 'visible', timeout: 50000 });
+    await expect(page).toHaveURL(/\/account$/);
     await expect(accountPage.header.userMenuButton).toHaveText('Jane Doe');
   });
 });

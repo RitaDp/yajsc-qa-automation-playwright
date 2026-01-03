@@ -1,22 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
-//import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
+import path from 'path';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
 
-//dotenv.config();
 chromium.use(stealth());
 
-if (!process.env.CI) {
-  require('dotenv').config();
-}
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
