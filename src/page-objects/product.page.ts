@@ -7,7 +7,8 @@ export class ProductPage {
   readonly productName: Locator;
   readonly productPrice: Locator;
   readonly addToCartButton: Locator;
-  readonly addFavouritesButton: Locator;
+  readonly addFavoritesButton: Locator;
+  readonly alertMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -15,6 +16,11 @@ export class ProductPage {
     this.productName = page.getByTestId('product-name');
     this.productPrice = page.getByTestId('unit-price');
     this.addToCartButton = page.getByTestId('add-to-cart');
-    this.addFavouritesButton = page.getByTestId('add-to-favorites');
+    this.addFavoritesButton = page.getByTestId('add-to-favorites');
+    this.alertMessage = page.getByRole('alert');
+  }
+
+  async addToCart(): Promise<void> {
+    await this.addToCartButton.click();
   }
 }

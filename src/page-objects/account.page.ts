@@ -11,4 +11,8 @@ export class AccountPage {
     this.header = new HeaderFragment(page);
     this.title = page.getByTestId('page-title');
   }
+
+  async navigateAccountPage(): Promise<void> {
+    await this.page.goto('/account');
+  }
 }

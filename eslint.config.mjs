@@ -42,5 +42,12 @@ export default defineConfig(
       // Customize Playwright rules
       // ...
     },
+  },
+  {
+    files: ['**/*.setup.ts'],
+    rules: {
+      'playwright/no-standalone-expect': 'off',
+      'playwright/expect-expect': 'off',
+    },
   }
 );
