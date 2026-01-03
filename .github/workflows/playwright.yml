@@ -21,7 +21,10 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install chrome --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: |
+        npx playwright test
+        echo "--- Checking Auth Directory Structure ---"
+        ls -R playwright/.auth
       env:
         BASE_URL: ${{ secrets.BASE_URL }}
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
