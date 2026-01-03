@@ -1,8 +1,10 @@
 import { test as setup, expect } from '@playwright/test';
 import { LoginPage, UserCredentials } from '../../src/page-objects/login.page';
-import path from 'path';
+//import path from 'path';
 
-const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
+//const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
+
+const authFile = 'playwright/.auth/user.json';
 
 setup('Authenticate as valid user', async ({ page }) => {
   const loginPage = new LoginPage(page);
