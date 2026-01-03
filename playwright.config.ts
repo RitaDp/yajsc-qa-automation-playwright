@@ -1,10 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
-// import * as dotenv from 'dotenv';
+//import * as dotenv from 'dotenv';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
 
-// dotenv.config();
+//dotenv.config();
 chromium.use(stealth());
+
+if (!process.env.CI) {
+  require('dotenv').config();
+}
+
+if (process.env.CI) {
+  if (!process.env.TEST_EMAIL) {
+    throw new Error('SECRET MISSING: TEST_EMAIL is not defined in GitHub Actions Secrets!');
+  }
+}
 
 /**
  * Read environment variables from file.
