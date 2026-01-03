@@ -22,7 +22,7 @@ jobs:
       run: npx playwright install chrome --with-deps
     - name: Run Playwright tests
       run: |
-        npx playwright test --project=perform-login
+        npx playwright test
         echo "--- AUTH FILE DEBUG ---"
         cat playwright/.auth/user.json | grep -o "cookies" || echo "COOKIES NOT FOUND IN FILE"
       env:

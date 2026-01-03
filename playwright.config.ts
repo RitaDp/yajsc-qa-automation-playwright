@@ -10,12 +10,6 @@ if (!process.env.CI) {
   require('dotenv').config();
 }
 
-if (process.env.CI) {
-  if (!process.env.TEST_EMAIL) {
-    throw new Error('SECRET MISSING: TEST_EMAIL is not defined in GitHub Actions Secrets!');
-  }
-}
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
