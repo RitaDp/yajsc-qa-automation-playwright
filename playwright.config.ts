@@ -1,9 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
 
-dotenv.config();
+// dotenv.config();
 chromium.use(stealth());
 
 /**
