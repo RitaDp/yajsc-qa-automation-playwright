@@ -6,7 +6,9 @@ import stealth from 'puppeteer-extra-plugin-stealth';
 
 chromium.use(stealth());
 
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+if (!process.env.CI) {
+  dotenv.config({ path: path.resolve(__dirname, '.env') });
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
