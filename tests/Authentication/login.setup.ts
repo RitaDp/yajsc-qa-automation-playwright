@@ -1,13 +1,11 @@
 import { test as setup, expect } from '@playwright/test';
-import { LoginPage } from '../../src/page-objects/login.page';
-// import path from 'path';
+import { HomePage } from '../../src/page-objects/home.page';
+import path from 'path';
 
-// const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
-
-const authFile = 'playwright/.auth/user.json';
+const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
 
 setup('Authenticate as valid user', async ({ request, page }) => {
-//  const loginPage = new LoginPage(page);
+  const homePage = new HomePage(page);
 
   const response = await request.post('https://api.practicesoftwaretesting.com/users/login', {
     data: {
@@ -20,7 +18,7 @@ setup('Authenticate as valid user', async ({ request, page }) => {
   const responseBody = await response.json() as { access_token: string };;
   const token = responseBody.access_token;
 
-  await page.goto('/');
+  await homePage.navigateHomePage();
 
   await page.evaluate((jwt) => {
     localStorage.setItem('auth-token', jwt);

@@ -1,11 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
 import path from 'path';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
 
 chromium.use(stealth());
+
 if (!process.env.CI) {
-  require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+  dotenv.config({ path: path.resolve(__dirname, '.env') });
 }
 
 /**
@@ -26,7 +28,6 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     channel: 'chrome',
-    // userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36',
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: process.env.BASE_URL,
     testIdAttribute: 'data-test',
