@@ -7,7 +7,7 @@ import { LoginPage } from '../../src/page-objects/login.page';
 const authFile = 'playwright/.auth/user.json';
 
 setup('Authenticate as valid user', async ({ request, page }) => {
-  const loginPage = new LoginPage(page);
+//  const loginPage = new LoginPage(page);
 
   const response = await request.post('https://api.practicesoftwaretesting.com/users/login', {
     data: {
@@ -20,7 +20,7 @@ setup('Authenticate as valid user', async ({ request, page }) => {
   const responseBody = await response.json() as { access_token: string };;
   const token = responseBody.access_token;
 
-  await loginPage.navigateLoginPage();
+  await page.goto('/');
 
   await page.evaluate((jwt) => {
     localStorage.setItem('auth-token', jwt);
