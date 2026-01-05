@@ -1,18 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
+import path from 'path';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
 
-dotenv.config();
 chromium.use(stealth());
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+if (!process.env.CI) {
+  dotenv.config({ path: path.resolve(__dirname, '.env') });
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -32,7 +28,6 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     channel: 'chrome',
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36',
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: process.env.BASE_URL,
     testIdAttribute: 'data-test',
@@ -43,9 +38,14 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    { name: 'perform-login', 
+      testMatch: /login\.setup\.ts/,
+    },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
+      use: { 
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
         launchOptions: {
           args: [
             '--no-sandbox', 
@@ -54,6 +54,7 @@ export default defineConfig({
           ],
         },
       },
+      dependencies: ['perform-login'],
     },
     /*
     {

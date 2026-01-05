@@ -19,5 +19,5 @@
     /* Completeness */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["**/*.ts", "tests/foo-bar/foo-bar"]
+  "include": ["**/*.ts"]
 }

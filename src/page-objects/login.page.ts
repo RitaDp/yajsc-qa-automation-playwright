@@ -1,14 +1,10 @@
 import { Locator, Page } from 'playwright/test';
 import { HeaderFragment } from '../fragments/headerFragment';
-
-export type UserCredentials = {
-  email: string;
-  password: string;
-};
-
+import { HomePage } from './home.page';
 export class LoginPage {
   readonly page: Page;
   readonly header: HeaderFragment;
+  readonly homePage: HomePage;
   readonly emailField: Locator;
   readonly passwordField: Locator;
   readonly submitButton: Locator;
@@ -16,6 +12,7 @@ export class LoginPage {
   constructor(page: Page) {
     this.page = page;
     this.header = new HeaderFragment(page);
+    this.homePage = new HomePage(page);
     this.emailField = page.getByTestId('email');
     this.passwordField = page.getByTestId('password');
     this.submitButton = page.getByTestId('login-submit');
@@ -25,9 +22,11 @@ export class LoginPage {
     await this.page.goto('/auth/login');
   }
 
-  async performLogin(user: UserCredentials): Promise<void> { 
-    await this.emailField.fill(user.email);
-    await this.passwordField.fill(user.password);
-    await this.submitButton.click();
+  async setAuthToken(tokenCallback: () => Promise<string>): Promise<void> {
+    const token = await tokenCallback();
+    await this.homePage.navigateHomePage();
+    await this.page.evaluate((jwt) => {
+      localStorage.setItem('auth-token', jwt);
+    }, token);
   }
 }
