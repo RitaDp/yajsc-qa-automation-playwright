@@ -17,6 +17,6 @@ export async function performApiLogin (request: APIRequestContext, user: UserCre
 export async function getApiLoginToken (request: APIRequestContext, user: UserCredentials): Promise<string> {
   const response = await performApiLogin(request, user);
   expect(response.ok()).toBeTruthy();
-  const responseBody = await response.json() as { access_token: string };;
+  const responseBody = await response.json() as { access_token: string };
   return responseBody.access_token;
 };
