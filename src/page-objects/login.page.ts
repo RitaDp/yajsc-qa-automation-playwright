@@ -1,9 +1,7 @@
 import { Locator, Page } from 'playwright/test';
-import { HeaderFragment } from '../fragments/headerFragment';
 import { HomePage } from './home.page';
 export class LoginPage {
   readonly page: Page;
-  readonly header: HeaderFragment;
   readonly homePage: HomePage;
   readonly emailField: Locator;
   readonly passwordField: Locator;
@@ -11,7 +9,6 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.header = new HeaderFragment(page);
     this.homePage = new HomePage(page);
     this.emailField = page.getByTestId('email');
     this.passwordField = page.getByTestId('password');

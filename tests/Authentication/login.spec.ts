@@ -1,16 +1,11 @@
-import { test, expect } from '@playwright/test';
-import { AccountPage } from '../../src/page-objects/account.page';
-import { HomePage } from '../../src/page-objects/home.page';
+import { test, expect } from '../../src/fixtures/base-pages.fixture';
 
 test.describe('Authentication - Login', () => {
-  test('Login with valid credentials navigates to account page', async ({ page }) => {
-    const accountPage = new AccountPage(page);
-    const homePage = new HomePage(page);
+  test('Login with valid credentials navigates to account page', async ({ loggedInApp }) => {
+    await loggedInApp.homePage.navigateHomePage();
 
-    await homePage.navigateHomePage();
-
-    await accountPage.navigateAccountPage();
-    await expect(page).toHaveURL(/\/account$/);
-    await expect(accountPage.header.userMenuButton).toHaveText('Jane Doe');
+    await loggedInApp.accountPage.navigateAccountPage();
+    await expect(loggedInApp.page).toHaveURL(/\/account$/);
+    await expect(loggedInApp.accountPage.header.userMenuButton).toHaveText('Jane Doe');
   });
 });

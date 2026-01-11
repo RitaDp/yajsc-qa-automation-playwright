@@ -1,5 +1,5 @@
 import { Locator, Page } from 'playwright/test';
-import { HeaderFragment } from '../fragments/headerFragment';
+import { HeaderFragment } from '../fragments/header.fragment';
 
 export class ProductPage {
   readonly page: Page;
@@ -23,4 +23,14 @@ export class ProductPage {
   async addToCart(): Promise<void> {
     await this.addToCartButton.click();
   }
+
+  async getProductName(): Promise<string> {
+    const getActualProductName = await this.productName.innerText();
+    return getActualProductName.trim();
+  };
+
+  async getProductPrice(): Promise<number> {
+    const getActualProductPrice = await this.productPrice.innerText();
+    return parseFloat(getActualProductPrice.replace(/[^0-9.]/g, ''));
+  };
 }
