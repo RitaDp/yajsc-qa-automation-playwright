@@ -1,7 +1,6 @@
-import { test as setup } from '@playwright/test';
+import { test as setup } from '../../src/fixtures/base-pages.fixture';
 import path from 'path';
-import { LoginPage } from '../../src/page-objects/login.page';
-import { getApiLoginToken, UserCredentials } from '../../src/utils/auth-helper';
+import { getApiLoginToken, UserCredentials } from '../../src/utils/auth.helper';
 
 const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
 
@@ -10,9 +9,8 @@ const credentials: UserCredentials = {
   password: process.env.TEST_PASSWORD!,
 };
 
-setup('Authenticate as valid user', async ({ page, request }) => {
-  const loginPage = new LoginPage(page);
-  await loginPage.setAuthToken(async () => {
+setup('Authenticate as valid user', async ({ allPages, page, request }) => {
+  await allPages.loginPage.setAuthToken(async () => {
     return getApiLoginToken(request, credentials);
   });
   

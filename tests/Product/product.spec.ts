@@ -1,7 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../../src/page-objects/home.page';
-import { ProductPage } from '../../src/page-objects/product.page';
-import { Checkout } from '../../src/page-objects/checkout.page';
+import { test, expect } from '../../src/fixtures/base-pages.fixture';
 
 /**
  * Test Unit-11: Verify user can view product details
@@ -40,45 +37,39 @@ import { Checkout } from '../../src/page-objects/checkout.page';
  */
 
 test.describe('Product', () => {
-  let homePage: HomePage;
-  let productPage: ProductPage;
 
-  test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
-    productPage = new ProductPage(page);
-    await homePage.navigateHomePage();
+  test.beforeEach(async ({ allPages }) => {
+    await allPages.homePage.navigateHomePage();
   });
 
-  test('User can view product details', async ({ page }) => {;
-    await homePage.clickProductByName('Combination Pliers');
+  test('User can view product details', async ({ allPages, page }) => {;
+    await allPages.homePage.clickProductByName('Combination Pliers');
 
     await expect(page).toHaveURL(/\/product\//);
-    await expect(productPage.productName).toHaveText('Combination Pliers');
-    await expect(productPage.productPrice).toHaveText('14.15');
-    await expect(productPage.addToCartButton).toBeVisible();
-    await expect(productPage.addFavoritesButton).toBeVisible();
+    await expect(allPages.productPage.productName).toHaveText('Combination Pliers');
+    await expect(allPages.productPage.productPrice).toHaveText('14.15');
+    await expect(allPages.productPage.addToCartButton).toBeVisible();
+    await expect(allPages.productPage.addFavoritesButton).toBeVisible();
   });
 
-  test('User can add product to cart', async ({ page }) => {
-    const checkoutPage = new Checkout(page);
-
-    await homePage.clickProductByName('Slip Joint Pliers');
+  test('User can add product to cart', async ({ allPages, page }) => {
+    await allPages.homePage.clickProductByName('Slip Joint Pliers');
 
     await expect(page).toHaveURL(/\/product\//);
-    await expect(productPage.productName).toHaveText('Slip Joint Pliers');
-    await expect(productPage.productPrice).toHaveText('9.17');
+    await expect(allPages.productPage.productName).toHaveText('Slip Joint Pliers');
+    await expect(allPages.productPage.productPrice).toHaveText('9.17');
 
-    await productPage.addToCart();
+    await allPages.productPage.addToCart();
 
-    await expect(productPage.alertMessage).toHaveText(/Product added to shopping cart/);
-    await expect(productPage.alertMessage).toBeHidden({ timeout: 8000 });
-    await expect(productPage.header.cartIcon).toHaveText('1');
+    await expect(allPages.productPage.alertMessage).toHaveText(/Product added to shopping cart/);
+    await expect(allPages.productPage.alertMessage).toBeHidden({ timeout: 8000 });
+    await expect(allPages.productPage.header.cartIcon).toHaveText('1');
 
-    await checkoutPage.navigateCheckoutPage();
+    await allPages.checkoutPage.navigateCheckoutPage();
 
     await expect(page).toHaveURL(/\/checkout/);
-    await expect(checkoutPage.productQuantity).toHaveValue('1');
-    await expect(checkoutPage.productTitle).toHaveText('Slip Joint Pliers');
-    await expect(checkoutPage.proceedButton).toBeVisible();
+    await expect(allPages.checkoutPage.productQuantity).toHaveValue('1');
+    await expect(allPages.checkoutPage.productTitle).toHaveText('Slip Joint Pliers');
+    await expect(allPages.checkoutPage.proceedButtonCartStep).toBeVisible();
   });
 });

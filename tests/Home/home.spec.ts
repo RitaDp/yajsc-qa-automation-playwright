@@ -1,13 +1,10 @@
-import { test, expect } from 'playwright/test';
-import { HomePage } from '../../src/page-objects/home.page';
-import { PRODUCT_CATEGORIES, SORT_OPTIONS } from './product-constants';
+import { test, expect } from '../../src/fixtures/base-pages.fixture';
+import { PRODUCT_CATEGORIES, SORT_OPTIONS } from './product.constants';
 
 test.describe('Products: sorting and filtering', () => {
-  let homePage: HomePage;
 
-  test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
-    await homePage.navigateHomePage();
+  test.beforeEach(async ({ allPages }) => {
+    await allPages.homePage.navigateHomePage();
   });
 
   /**
@@ -25,15 +22,15 @@ test.describe('Products: sorting and filtering', () => {
     ];
 
     sortingCases.forEach (({ option, path }) => {
-      test(`User can sort by name ${option}`, async () => {
-        const response = await homePage.waitApiProductResponse(path, async () => 
-          await homePage.sortBy(option));
+      test(`User can sort by name ${option}`, async ({ allPages }) => {
+        const response = await allPages.homePage.waitApiAllProductsResponse(path, async () => 
+          await allPages.homePage.sortBy(option));
 
         const { data } = (await response.json()) as { data: { name: string }[] };
         const apiProductNames = data.map((item) => item.name.trim());
 
         await expect.poll(async () => {
-          return await homePage.getProductNames();
+          return await allPages.homePage.getAllProductNames();
         },
         {
           message: `UI names should match API names for ${option}`,
@@ -59,14 +56,14 @@ test.describe('Products: sorting and filtering', () => {
     ];
     
     sortingCases.forEach (({ option, path }) => {
-      test(`User can sort by price ${option}`, async () => {
-        const response = await homePage.waitApiProductResponse(path, async () => 
-          await homePage.sortBy(option));
+      test(`User can sort by price ${option}`, async ({ allPages }) => {
+        const response = await allPages.homePage.waitApiAllProductsResponse(path, async () => 
+          await allPages.homePage.sortBy(option));
         const { data } = (await response.json()) as { data: { price: number }[] };
         const apiProductPrice = data.map((item) => item.price);
 
         await expect.poll(async () => {
-          return await homePage.getProductPrices();
+          return await allPages.homePage.getAllProductPrices();
         },
         {
           message: `UI prices should match API prices for ${option}`,
@@ -86,10 +83,10 @@ test.describe('Products: sorting and filtering', () => {
    */
 
   test.describe('Filter products by category', () => {
-    test('User can filter products by Sander category', async () => {
-      await homePage.waitApiProductResponse('by_category', async () => 
-        await homePage.filterProducts(PRODUCT_CATEGORIES.POWER_TOOLS.SANDER));
-      const productNames = await homePage.getProductNames();
+    test('User can filter products by Sander category', async ({ allPages }) => {
+      await allPages.homePage.waitApiAllProductsResponse('by_category', async () => 
+        await allPages.homePage.filterProducts(PRODUCT_CATEGORIES.POWER_TOOLS.SANDER));
+      const productNames = await allPages.homePage.getAllProductNames();
 
       for (const name of productNames) {
         expect(name).toContain('Sander');
