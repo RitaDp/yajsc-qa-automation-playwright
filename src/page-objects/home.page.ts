@@ -63,5 +63,10 @@ export class HomePage {
   async filterProducts(option: string): Promise<void> {
     await this.filterCheckbox(option).check();
   }
+
+  async getPageProductsCount(): Promise<number> {
+    const count = await this.productCard.count();
+    return count;
+  }
 }
 
