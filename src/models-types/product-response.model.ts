@@ -45,6 +45,13 @@ export type CartProduct = Pick<Product,
   | 'is_eco_friendly'
 >;
 
+export type ExpectedCartProductData = Pick<Product,
+| 'name'
+| 'price'
+> & { 
+  totalPrice: number 
+};
+
 export type MockProduct = Pick<Product,
   | 'id'
   | 'in_stock'

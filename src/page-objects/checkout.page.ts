@@ -1,8 +1,8 @@
 import { Locator, Page, Response } from 'playwright/test';
 import { CartItem, CartResponse } from '../models-types/cart-response.model';
-import { ExpectedCartData } from '../models-types/cart.types';
 import { BillingAddress } from '../models-types/billing-address.types';
 import { Payment } from '../models-types/payment.types';
+import { ExpectedCartProductData } from '../models-types/product-response.model';
 export class CheckoutPage {
   readonly page: Page;
   readonly productTitle: Locator;
@@ -95,7 +95,7 @@ export class CheckoutPage {
     return Number(totalPrice.toFixed(2));
   }
           
-  getExpectedCartData(body: CartResponse, index: number): ExpectedCartData {
+  getExpectedCartData(body: CartResponse, index: number): ExpectedCartProductData {
     return {
       name: body.cart_items[index].product.name,
       price: body.cart_items[index].product.price,
