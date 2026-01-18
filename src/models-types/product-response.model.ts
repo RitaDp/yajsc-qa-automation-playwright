@@ -1,4 +1,4 @@
-export type ProductResponse = {
+export type Product = {
   id: string;
   name: string;
   description: string;
@@ -33,9 +33,35 @@ export type ProductResponse = {
   };
 };
 
-export type ProductsResponse = {
+export type CartProduct = Pick<Product,
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'price'
+  | 'is_location_offer'
+  | 'is_rental'
+  | 'co2_rating'
+  | 'in_stock'
+  | 'is_eco_friendly'
+>;
+
+export type MockProduct = Pick<Product,
+  | 'id'
+  | 'in_stock'
+  | 'name'
+  | 'co2_rating'
+  | 'price'
+> & {
+  product_image: Pick<Product['product_image'], 
+  | 'id'
+  | 'source_url'
+  | 'file_name'
+  >
+};
+
+export type ProductList<T extends Product | MockProduct> = {
   current_page: number;
-  data: ProductResponse[];
+  data: T[];
   from: number;
   last_page: number;
   per_page: number;

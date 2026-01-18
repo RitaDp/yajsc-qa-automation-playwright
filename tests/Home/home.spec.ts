@@ -1,5 +1,5 @@
 import { test, expect } from '../../src/fixtures/base-pages.fixture';
-import { MockProductsResponse } from '../../src/models-types/mock-product.types';
+import { MockProduct, ProductList } from '../../src/models-types/product-response.model';
 import { addMockProducts } from '../../src/utils/product.factory';
 import { PRODUCT_CATEGORIES, SORT_OPTIONS } from './product.constants';
 
@@ -100,25 +100,21 @@ test.describe('Products: sorting and filtering', () => {
 
 test.describe('Mocked data scenarios', () => {
   test('20 products should be displayed', async ({ allPages }) => {
-    const mocksData = addMockProducts(20);
+    const EXPECTED_PRODUCT_COUNT = 20;
+
+    const mocksData = addMockProducts(EXPECTED_PRODUCT_COUNT);
     const mockProductNames = mocksData.map(product => product.name);  
 
     await allPages.page.route('**/products?**', async route => {
       const response = await route.fetch();
-      const json = await response.json() as MockProductsResponse;   
+      const json = await response.json() as ProductList<MockProduct>;   
       json.data = mocksData;      
       await route.fulfill({ response, json });
     });
 
     await allPages.homePage.navigateHomePage();
     
-    for (const name of mockProductNames) {
-      await expect(allPages.page.getByText(name, { exact: true })).toBeVisible();
-    }
-
-    const actualProductCount = await allPages.homePage.getPageProductsCount();
-
-    expect(actualProductCount).toBe(20);
+    await expect(allPages.homePage.productCard).toHaveText(mockProductNames);
   });
 });
 

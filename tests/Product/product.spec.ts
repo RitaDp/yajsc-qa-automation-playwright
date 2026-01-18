@@ -1,4 +1,6 @@
+import { UI_MESSAGES } from '../../src/constants/ui-messages.constants';
 import { test, expect } from '../../src/fixtures/base-pages.fixture';
+import { PRODUCT_TEST_DATA } from '../../src/test-data/product.data';
 
 /**
  * Test Unit-11: Verify user can view product details
@@ -43,33 +45,38 @@ test.describe('Product', () => {
   });
 
   test('User can view product details', async ({ allPages, page }) => {;
-    await allPages.homePage.clickProductByName('Combination Pliers');
+    const product = PRODUCT_TEST_DATA.COMBINATION_PLIERS;
+
+    await allPages.homePage.clickProductByName(product.name);
 
     await expect(page).toHaveURL(/\/product\//);
-    await expect(allPages.productPage.productName).toHaveText('Combination Pliers');
-    await expect(allPages.productPage.productPrice).toHaveText('14.15');
+    await expect(allPages.productPage.productName).toHaveText(product.name);
+    await expect(allPages.productPage.productPrice).toHaveText(product.price);
     await expect(allPages.productPage.addToCartButton).toBeVisible();
     await expect(allPages.productPage.addFavoritesButton).toBeVisible();
   });
 
   test('User can add product to cart', async ({ allPages, page }) => {
-    await allPages.homePage.clickProductByName('Slip Joint Pliers');
+    const product = PRODUCT_TEST_DATA.SLIP_JOINT_PLIERS;
+    const EXPECTED_QUANTITY = '1';
+
+    await allPages.homePage.clickProductByName(product.name);
 
     await expect(page).toHaveURL(/\/product\//);
-    await expect(allPages.productPage.productName).toHaveText('Slip Joint Pliers');
-    await expect(allPages.productPage.productPrice).toHaveText('9.17');
+    await expect(allPages.productPage.productName).toHaveText(product.name);
+    await expect(allPages.productPage.productPrice).toHaveText(product.price);
 
     await allPages.productPage.addToCart();
 
-    await expect(allPages.productPage.alertMessage).toHaveText(/Product added to shopping cart/);
+    await expect(allPages.productPage.alertMessage).toHaveText(UI_MESSAGES.PRODUCT_ADDED_TO_CART);
     await expect(allPages.productPage.alertMessage).toBeHidden({ timeout: 8000 });
-    await expect(allPages.productPage.header.cartIcon).toHaveText('1');
+    await expect(allPages.productPage.header.cartIcon).toHaveText(EXPECTED_QUANTITY);
 
     await allPages.checkoutPage.navigateCheckoutPage();
 
     await expect(page).toHaveURL(/\/checkout/);
-    await expect(allPages.checkoutPage.productQuantity).toHaveValue('1');
-    await expect(allPages.checkoutPage.productTitle).toHaveText('Slip Joint Pliers');
+    await expect(allPages.checkoutPage.productQuantity).toHaveValue(EXPECTED_QUANTITY);
+    await expect(allPages.checkoutPage.productTitle).toHaveText(product.name);
     await expect(allPages.checkoutPage.proceedButtonCartStep).toBeVisible();
   });
 });

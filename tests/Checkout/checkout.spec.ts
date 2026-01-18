@@ -1,5 +1,5 @@
 import { expect, test } from '../../src/fixtures/base-pages.fixture';
-import { billingTestData, paymentTestData } from '../../src/test-data/checkout.data';
+import { BILLING_TEST_DATA, PAYMENT_TEST_DATA } from '../../src/test-data/checkout.data';
 import { PAYMENT_METHODS } from './payment-methods.constants';
 
 /**
@@ -24,11 +24,11 @@ test.describe('Checkout', () => {
       description: 'Race condition on Billing form: Form are reset during input. Using pressSequentially() and retry logic'
     });
 
-    const itemIndex = 0;
+    const ITEM_INDEX = 0;
 
     await test.step('Navigate to product and add to cart', async () => {
       await loggedInApp.homePage.navigateHomePage();
-      await loggedInApp.homePage.clickProductByIndex(itemIndex);
+      await loggedInApp.homePage.clickProductByIndex(ITEM_INDEX);
 
       await loggedInApp.checkoutPage.waitApiCartResponse('POST', async() => {
         await loggedInApp.productPage.addToCart();
@@ -46,7 +46,7 @@ test.describe('Checkout', () => {
       const actualTotalPrice = await loggedInApp.checkoutPage.getTotalPriceAsNumber();
 
       const responseBody = await loggedInApp.checkoutPage.getFullCartData(cartResponse);
-      const expected = loggedInApp.checkoutPage.getExpectedCartData(responseBody, itemIndex);
+      const expected = loggedInApp.checkoutPage.getExpectedCartData(responseBody, ITEM_INDEX);
 
       expect(actualProductName).toBe(expected.name);
       expect(actualProductPrice).toBe(expected.price);
@@ -59,13 +59,13 @@ test.describe('Checkout', () => {
     });
 
     await test.step('Fill billing address information', async () => {
-      await loggedInApp.checkoutPage.fillBillingAddressForm(billingTestData);
+      await loggedInApp.checkoutPage.fillBillingAddressForm(BILLING_TEST_DATA);
       await loggedInApp.checkoutPage.proceedButtonBillingStep.click();
     });
 
     await test.step('Complete payment and verify success', async () => {
       await loggedInApp.checkoutPage.selectPaymentMethod(PAYMENT_METHODS.CREDIT_CARD);
-      await loggedInApp.checkoutPage.fillPaymentForm(paymentTestData);
+      await loggedInApp.checkoutPage.fillPaymentForm(PAYMENT_TEST_DATA);
       await loggedInApp.checkoutPage.confirmButton.click();
     
       await expect(loggedInApp.checkoutPage.paymentSuccessMessage).toBeVisible();

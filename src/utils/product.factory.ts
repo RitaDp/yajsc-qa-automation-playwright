@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
-import { MockProductResponse } from '../models-types/mock-product.types';
+import { MockProduct } from '../models-types/product-response.model';
 
-export function factoryMethod (index: number): MockProductResponse {
+export function factoryMethod (index: number): MockProduct {
   return {
     'id': `${randomUUID()}`,
     'in_stock': true,
@@ -16,10 +16,10 @@ export function factoryMethod (index: number): MockProductResponse {
   };
 }
 
-export function addMockProducts(products: number): MockProductResponse[] {
+export function addMockProducts(count: number): MockProduct[] {
   const generatedProducts = [];
   
-  for (let i = 0; i < products; i++) {
+  for (let i = 0; i < count; i++) {
     const newProduct = factoryMethod(i+1);
     generatedProducts.push(newProduct);
   }
