@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { MockProduct } from '../models-types/product-response.model';
+import { MockProduct } from '../types/product-response.types';
 
 export function factoryMethod (index: number): MockProduct {
   return {

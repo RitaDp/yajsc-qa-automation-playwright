@@ -1,5 +1,5 @@
 import { test, expect } from '../../src/fixtures/base-pages.fixture';
-import { MockProduct, ProductList } from '../../src/models-types/product-response.model';
+import { MockProduct, ProductList } from '../../src/types/product-response.types';
 import { addMockProducts } from '../../src/utils/product.factory';
 import { PRODUCT_CATEGORIES, SORT_OPTIONS } from './product.constants';
 

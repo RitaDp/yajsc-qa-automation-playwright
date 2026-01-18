@@ -1,4 +1,4 @@
-import { CartProduct } from './product-response.model';
+import { CartProduct } from './product-response.types';
 
 export type CartItem = {
   id: string;
