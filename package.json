@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
     "report": "npx playwright show-report",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix"

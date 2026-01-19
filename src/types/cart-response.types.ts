@@ -1,14 +1,4 @@
-export type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  is_location_offer: boolean;
-  is_rental: boolean;
-  co2_rating: string;
-  in_stock: boolean;
-  is_eco_friendly: boolean;
-};
+import { CartProduct } from './product-response.types';
 
 export type CartItem = {
   id: string;
@@ -16,7 +6,7 @@ export type CartItem = {
   discount_percentage: number | null;
   cart_id: string;
   product_id: string;
-  product: Product;
+  product: CartProduct;
 };
 
 export type CartResponse = {

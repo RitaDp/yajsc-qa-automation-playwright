@@ -1,8 +1,8 @@
 import { Locator, Page, Response } from 'playwright/test';
-import { CartItem, CartResponse } from '../models-types/cart-response.model';
-import { ExpectedCartData } from '../models-types/cart.types';
-import { BillingAddress } from '../models-types/billing-address.types';
-import { Payment } from '../models-types/payment.types';
+import { CartItem, CartResponse } from '../types/cart-response.types';
+import { BillingAddressForm } from '../types/billing-address-form.types';
+import { PaymentForm } from '../types/payment-form.types';
+import { ExpectedCartProductData } from '../types/product-response.types';
 export class CheckoutPage {
   readonly page: Page;
   readonly productTitle: Locator;
@@ -95,7 +95,7 @@ export class CheckoutPage {
     return Number(totalPrice.toFixed(2));
   }
           
-  getExpectedCartData(body: CartResponse, index: number): ExpectedCartData {
+  getExpectedCartData(body: CartResponse, index: number): ExpectedCartProductData {
     return {
       name: body.cart_items[index].product.name,
       price: body.cart_items[index].product.price,
@@ -112,20 +112,20 @@ export class CheckoutPage {
  * 1. pressSequentially() - simulates human typing to trigger validation events
  * 2. Retry logic - verifies the final value and re-fills if characters were lost
  */
-  async fillBillingAddressForm(data: BillingAddress): Promise<void> {
-    await this.stateField.pressSequentially(data.state, { delay: 100 });
+  async fillBillingAddressForm(data: BillingAddressForm): Promise<void> {
+    await this.stateField.pressSequentially(data.state, { delay: 150 });
     if (await this.stateField.inputValue() !== data.state) {
       await this.stateField.clear(); 
       await this.stateField.pressSequentially(data.state);
     }
-    await this.postcodeField.pressSequentially(data.postcode, { delay: 100 });
+    await this.postcodeField.pressSequentially(data.postcode, { delay: 150 });
   }
 
   async selectPaymentMethod(method: string): Promise<void> {
     await this.paymentMethodDropdown.selectOption(method);
   }
 
-  async fillPaymentForm(data: Payment): Promise<void>{
+  async fillPaymentForm(data: PaymentForm): Promise<void>{
     await this.creditCardNumberField.fill(data.cardNumber);
     await this.expirationDateField.fill(data.expirationDate);
     await this.cvvField.fill(data.cvv);

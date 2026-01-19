@@ -1,4 +1,4 @@
-export type BillingAddress = {
+export type BillingAddressForm = {
   state: string;
   postcode: string;
 };

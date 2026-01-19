@@ -9,10 +9,12 @@ const credentials: UserCredentials = {
   password: process.env.TEST_PASSWORD!,
 };
 
-setup('Authenticate as valid user', async ({ allPages, page, request }) => {
+setup('Authenticate as valid user', async ({ allPages, request }) => {
   await allPages.loginPage.setAuthToken(async () => {
     return getApiLoginToken(request, credentials);
   });
+
+  await allPages.page.reload();
   
-  await page.context().storageState({ path: authFile });
+  await allPages.page.context().storageState({ path: authFile });
 });
