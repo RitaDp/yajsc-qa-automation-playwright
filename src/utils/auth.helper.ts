@@ -1,4 +1,5 @@
 import { APIRequestContext, APIResponse, expect } from 'playwright/test';
+import { baseConfig } from '../config/base.config';
 
 export type UserCredentials = {
   email: string;
@@ -6,7 +7,7 @@ export type UserCredentials = {
 };
 
 export async function performApiLogin (request: APIRequestContext, user: UserCredentials): Promise<APIResponse> {
-  return await request.post('https://api.practicesoftwaretesting.com/users/login', {
+  return await request.post(`${baseConfig.apiUrl}${baseConfig.endpoints.login}`, {
     data: {
       email: user.email,
       password: user.password,

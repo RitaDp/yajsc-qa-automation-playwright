@@ -9,6 +9,11 @@ export const baseConfig = {
   isCI: !!process.env.CI,
 
   webUrl: process.env.BASE_URL ?? 'https://practicesoftwaretesting.com',
+  apiUrl: process.env.API_URL ?? 'https://api.practicesoftwaretesting.com',
+
+  endpoints: {
+    login: '/users/login',
+  } as const,
   
   customer: {
     email: process.env.CUSTOMER_EMAIL ?? '',
