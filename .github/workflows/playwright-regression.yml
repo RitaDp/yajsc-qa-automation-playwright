@@ -1,4 +1,4 @@
-name: Automation Tests
+name: Automation Regression Tests
 
 on:
   push:
