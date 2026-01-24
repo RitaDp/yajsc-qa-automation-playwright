@@ -1,12 +1,13 @@
 name: All Automated Tests (Manual Run)
 
 on:
-workflow_dispatch:
-  inputs:
+  workflow_dispatch:
+    inputs:
       test_grep:
         description: 'Tags filter (example @smoke|@regression|^[^@]*$)'
         required: true
         default: '@smoke|@regression|^[^@]*$'
+
 jobs:
   test:
     timeout-minutes: 60
