@@ -1,14 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import * as dotenv from 'dotenv';
-import path from 'path';
-import { chromium } from 'playwright-extra';
-import stealth from 'puppeteer-extra-plugin-stealth';
-
-chromium.use(stealth());
-
-if (!process.env.CI) {
-  dotenv.config({ path: path.resolve(__dirname, '.env') });
-}
+import { baseConfig } from './src/config/base.config';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -29,7 +20,7 @@ export default defineConfig({
   use: {
     channel: 'chrome',
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.BASE_URL,
+    baseURL: baseConfig.webUrl,
     testIdAttribute: 'data-test',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
