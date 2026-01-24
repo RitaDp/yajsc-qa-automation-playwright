@@ -44,7 +44,7 @@ test.describe('Product', () => {
     await allPages.homePage.navigateHomePage();
   });
 
-  test('User can view product details', async ({ allPages, page }) => {;
+  test('User can view product details', { tag: '@regression' }, async ({ allPages, page }) => {;
     const product = PRODUCT_TEST_DATA.COMBINATION_PLIERS;
 
     await allPages.homePage.clickProductByName(product.name);
@@ -56,7 +56,7 @@ test.describe('Product', () => {
     await expect(allPages.productPage.addFavoritesButton).toBeVisible();
   });
 
-  test('User can add product to cart', async ({ allPages, page }) => {
+  test('User can add product to cart', { tag: '@smoke' }, async ({ allPages, page }) => {
     const product = PRODUCT_TEST_DATA.SLIP_JOINT_PLIERS;
     const EXPECTED_QUANTITY = '1';
 

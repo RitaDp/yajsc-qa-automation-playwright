@@ -18,7 +18,7 @@ import { PAYMENT_METHODS } from './payment-methods.constants';
  */
 
 test.describe('Checkout', () => {
-  test('Logged in user can check out a product', async ({ loggedInApp }) => {
+  test('Logged in user can check out a product', { tag: '@smoke' }, async ({ loggedInApp }) => {
     test.info().annotations.push({
       type: 'issue',
       description: 'Race condition on Billing form: Form are reset during input. Using pressSequentially() and retry logic'

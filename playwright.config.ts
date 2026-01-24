@@ -22,9 +22,9 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: baseConfig.webUrl,
     testIdAttribute: 'data-test',
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on-all-retries',
+    screenshot: 'only-on-failure'
   },
 
   /* Configure projects for major browsers */
@@ -33,17 +33,28 @@ export default defineConfig({
       testMatch: /login\.setup\.ts/,
     },
     {
-      name: 'chromium',
+      name: 'full-run',
       use: { 
         ...devices['Desktop Chrome'],
-        launchOptions: {
-          args: [
-            '--no-sandbox', 
-            '--disable-setuid-sandbox',
-            '--disable-blink-features=AutomationControlled' 
-          ],
-        },
       },
+      dependencies: ['perform-login'],
+    },
+    {
+      name: 'smoke',
+      use: { 
+        ...devices['Desktop Chrome'],
+      },
+      grep: /@smoke/,
+      testMatch: ['**/*.spec.ts', '**/*.setup.ts'],
+      dependencies: ['perform-login'],
+    },
+    {
+      name: 'regression',
+      use: { 
+        ...devices['Desktop Chrome'],
+      },
+      grep: /@regression/,
+      testMatch: ['**/*.spec.ts', '**/*.setup.ts'],
       dependencies: ['perform-login'],
     },
     /*

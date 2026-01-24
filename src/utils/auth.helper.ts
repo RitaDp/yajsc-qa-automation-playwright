@@ -25,6 +25,9 @@ export async function getApiLoginToken (request: APIRequestContext, user: UserCr
     console.error(`Sending Email: ${user.email ? 'Provided' : 'EMPTY'}`);
     console.error(`Sending Password: ${user.password ? 'Provided' : 'EMPTY'}`);
   }
+  if (response.status() === 500) {
+    console.error('SERVER CRASHED. Payload sent:', JSON.stringify({ email: user.email }));
+  }
   expect(response.ok(), `Failed to login via API. Status: ${response.status()}`).toBeTruthy();
   const responseBody = await response.json() as { access_token: string };
   return responseBody.access_token;
