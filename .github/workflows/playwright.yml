@@ -1,21 +1,10 @@
-name: All Automated Tests (Manual Run)
+name: Automation Tests
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
-    inputs:
-      test_grep:
-        description: >
-          Filter tests (Regex)
-          --------------------
-          EMPTY: All tests
-          '@smoke|@regression': Only specific tags
-          '^[^@]*$': Tests without tags 
-          '@smoke|^[^@]*$': tags + untagged tests
-        required: false
-        default: ''
-
+  pull_request:
+    branches: [ main ]
 jobs:
   test:
     timeout-minutes: 60
@@ -32,13 +21,11 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install chrome --with-deps
     - name: Run Playwright tests
-      run: npx playwright test --project=full-run --grep "${{ github.event.inputs.test_grep }}"
+      run: npx playwright test
       env:
-        BASE_URL: ${{ vars.BASE_URL }}
-        API_URL: ${{ vars.API_URL }}
-        CUSTOMER_EMAIL: ${{ secrets.CUSTOMER_EMAIL }}
-        CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}
-        CUSTOMER_NAME: ${{ vars.CUSTOMER_NAME }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
