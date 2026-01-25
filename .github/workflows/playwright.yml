@@ -4,9 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       test_grep:
-        description: 'Tags filter (example @smoke|@regression|^[^@]*$)'
-        required: true
-        default: '@smoke|@regression|^[^@]*$'
+        description: >
+          Filter tests (Regex)
+          --------------------
+          EMPTY: All tests
+          '@smoke|@regression': Only specific tags
+          '^[^@]*$': Tests without tags 
+          '@smoke|^[^@]*$': tags + untagged tests
+        required: false
+        default: ''
 
 jobs:
   test:
@@ -24,7 +30,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install chrome --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test --project=full-run --grep "${{ github.event.inputs.test_grep }}"
       env:
         BASE_URL: ${{ vars.BASE_URL }}
         API_URL: ${{ vars.API_URL }}

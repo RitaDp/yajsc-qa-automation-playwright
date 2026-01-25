@@ -45,7 +45,6 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
       },
       grep: /@smoke/,
-      testMatch: ['**/*.spec.ts', '**/*.setup.ts'],
       dependencies: ['perform-login'],
     },
     {
@@ -53,9 +52,9 @@ export default defineConfig({
       use: { 
         ...devices['Desktop Chrome'],
       },
-      grep: /@regression/,
-      testMatch: ['**/*.spec.ts', '**/*.setup.ts'],
-      dependencies: ['perform-login'],
+      grep: /@regression/, 
+      // Currently, no tests require a logged-in user; uncomment if needed.
+      // dependencies: ['perform-login'], 
     },
     /*
     {
