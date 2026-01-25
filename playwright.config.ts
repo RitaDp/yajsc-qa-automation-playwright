@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 import { baseConfig } from './src/config/base.config';
+import { chromium } from 'playwright-extra';
+import stealth from 'puppeteer-extra-plugin-stealth';
+
+chromium.use(stealth());
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -25,15 +29,6 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-all-retries',
     screenshot: 'only-on-failure',
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    launchOptions: {
-      args: [
-        '--disable-blink-features=AutomationControlled',
-        '--disable-infobars',                         
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-      ],
-    },
   },
 
   /* Configure projects for major browsers */
