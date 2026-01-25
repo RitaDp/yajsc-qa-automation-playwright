@@ -28,7 +28,14 @@ export default defineConfig({
     testIdAttribute: 'data-test',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-all-retries',
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
+    launchOptions: {
+      args: [
+        '--no-sandbox', 
+        '--disable-setuid-sandbox',
+        '--disable-blink-features=AutomationControlled' 
+      ],
+    },
   },
 
   /* Configure projects for major browsers */
