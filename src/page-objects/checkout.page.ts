@@ -113,12 +113,12 @@ export class CheckoutPage {
  * 2. Retry logic - verifies the final value and re-fills if characters were lost
  */
   async fillBillingAddressForm(data: BillingAddressForm): Promise<void> {
-    await this.stateField.pressSequentially(data.state, { delay: 150 });
+    await this.stateField.pressSequentially(data.state, { delay: 200 });
     if (await this.stateField.inputValue() !== data.state) {
       await this.stateField.clear(); 
       await this.stateField.pressSequentially(data.state);
     }
-    await this.postcodeField.pressSequentially(data.postcode, { delay: 150 });
+    await this.postcodeField.pressSequentially(data.postcode, { delay: 200 });
   }
 
   async selectPaymentMethod(method: string): Promise<void> {
