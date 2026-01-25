@@ -1,6 +1,8 @@
 name: All Automated Tests (Manual Run)
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       test_grep:
