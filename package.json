@@ -4,10 +4,10 @@
   "description": "AQA test automation framework built using Playwright, Node.js, and JavaScript/TypeScript.",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
-    "regression test": "npx playwright test --grep @regression",
-    "smoke test": "npx playwright test --grep @smoke",
-    "test:ui": "npx playwright test --ui",
+    "test": "npx playwright test --project=full-run",
+    "regression test": "npx playwright test --project=regression",
+    "smoke test": "npx playwright test --project=smoke",
+    "test:ui": "npx playwright test --project=full-run --ui",
     "report": "npx playwright show-report",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix"
@@ -28,6 +28,7 @@
     "@eslint/js": "^9.39.2",
     "@playwright/test": "^1.57.0",
     "@stylistic/eslint-plugin": "^5.6.1",
+    "@testomatio/reporter": "^2.6.0",
     "@types/node": "^24.1.0",
     "eslint": "^9.39.2",
     "eslint-plugin-playwright": "^2.4.0",

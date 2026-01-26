@@ -31,14 +31,16 @@ test.describe('Products: sorting and filtering', { tag: '@regression' }, () => {
         const { data } = (await response.json()) as { data: { name: string }[] };
         const apiProductNames = data.map((item) => item.name.trim());
 
-        await expect.poll(async () => {
-          return await allPages.homePage.getAllProductNames();
-        },
-        {
-          message: `UI names should match API names for ${option}`,
-          timeout: 5000,
-        }
-        ).toEqual(apiProductNames);
+        await test.step(`Verify UI names match API sorted order (${option})`, async () => {
+          await expect.poll(async () => {
+            return await allPages.homePage.getAllProductNames();
+          },
+          {
+            message: `UI names should match API names for ${option}`,
+            timeout: 5000,
+          }
+          ).toEqual(apiProductNames);
+        });
       });
     });
   });
@@ -63,15 +65,17 @@ test.describe('Products: sorting and filtering', { tag: '@regression' }, () => {
           await allPages.homePage.sortBy(option));
         const { data } = (await response.json()) as { data: { price: number }[] };
         const apiProductPrice = data.map((item) => item.price);
-
-        await expect.poll(async () => {
-          return await allPages.homePage.getAllProductPrices();
-        },
-        {
-          message: `UI prices should match API prices for ${option}`,
-          timeout: 5000,
-        }
-        ).toEqual(apiProductPrice);
+        
+        await test.step(`Verify UI prices match API sorted order (${option})`, async () => {
+          await expect.poll(async () => {
+            return await allPages.homePage.getAllProductPrices();
+          },
+          {
+            message: `UI prices should match API prices for ${option}`,
+            timeout: 5000,
+          }
+          ).toEqual(apiProductPrice);
+        });
       });
     });
   });
@@ -86,13 +90,22 @@ test.describe('Products: sorting and filtering', { tag: '@regression' }, () => {
 
   test.describe('Filter products by category', () => {
     test('User can filter products by Sander category', async ({ allPages }) => {
-      await allPages.homePage.waitApiAllProductsResponse('by_category', async () => 
-        await allPages.homePage.filterProducts(PRODUCT_CATEGORIES.POWER_TOOLS.SANDER));
-      const productNames = await allPages.homePage.getAllProductNames();
+      let productNames: string[] = [];
 
-      for (const name of productNames) {
-        expect(name).toContain('Sander');
-      }
+      await test.step('Apply "Sander" filter and wait for API response', async () => {
+        await allPages.homePage.waitApiAllProductsResponse('by_category', async () => 
+          await allPages.homePage.filterProducts(PRODUCT_CATEGORIES.POWER_TOOLS.SANDER));
+      });
+
+      await test.step('Get all displayed product names', async () => {
+        productNames = await allPages.homePage.getAllProductNames();
+      });
+      
+      await test.step('Verify each product name contains "Sander"', () => {
+        for (const name of productNames) {
+          expect(name).toContain('Sander');
+        }
+      });
     });
   });
 });
@@ -104,17 +117,23 @@ test.describe('Mocked data scenarios', { tag: '@regression' }, () => {
 
     const mocksData = addMockProducts(EXPECTED_PRODUCT_COUNT);
     const mockProductNames = mocksData.map(product => product.name);  
-
-    await allPages.page.route('**/products?**', async route => {
-      const response = await route.fetch();
-      const json = await response.json() as ProductList<MockProduct>;   
-      json.data = mocksData;      
-      await route.fulfill({ response, json });
+    
+    await test.step('Set up API interceptor for products', async () => {
+      await allPages.page.route('**/products?**', async route => {
+        const response = await route.fetch();
+        const json = await response.json() as ProductList<MockProduct>;   
+        json.data = mocksData;      
+        await route.fulfill({ response, json });
+      });
     });
 
-    await allPages.homePage.navigateHomePage();
-    
-    await expect(allPages.homePage.productCard).toHaveText(mockProductNames);
+    await test.step('Navigate to Homepage', async () => {
+      await allPages.homePage.navigateHomePage();
+    });
+
+    await test.step(`Verify that UI displays ${EXPECTED_PRODUCT_COUNT} mocked products`, async () => {
+      await expect(allPages.homePage.productCard).toHaveText(mockProductNames);
+    });
   });
 });
 

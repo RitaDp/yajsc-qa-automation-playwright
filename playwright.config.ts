@@ -19,7 +19,17 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results/test-results.json' }],
+    [
+      '@testomatio/reporter/playwright',
+      {
+        apiKey: process.env.TESTOMATIO,
+      },
+    ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     channel: 'chrome',
@@ -27,8 +37,9 @@ export default defineConfig({
     baseURL: baseConfig.webUrl,
     testIdAttribute: 'data-test',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-all-retries',
-    screenshot: 'on',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'on-first-retry',
     launchOptions: {
       args: [
         '--no-sandbox', 

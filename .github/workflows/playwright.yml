@@ -25,12 +25,18 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test --grep "${{ github.event.inputs.test_grep }}"
       env:
-        BASE_URL: ${{ secrets.BASE_URL }}
-        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
-        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-    - uses: actions/upload-artifact@v4
+        BASE_URL: ${{ vars.BASE_URL }}
+        API_URL: ${{ vars.API_URL }}
+        CUSTOMER_EMAIL: ${{ secrets.CUSTOMER_EMAIL }}
+        CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}
+        CUSTOMER_NAME: ${{ vars.CUSTOMER_NAME }}
+        TESTOMATIO: ${{ secrets.TESTOMATIO }}
+    - name: Upload Test Artifacts
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
-        path: playwright-report/
+        name: reports
+        path: |
+         playwright-report/
+         test-results/test-results.json
         retention-days: 30
