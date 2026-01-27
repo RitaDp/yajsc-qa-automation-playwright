@@ -29,7 +29,7 @@ export default defineConfig({
         apiKey: process.env.TESTOMATIO,
       },
     ],
-    [
+    ...(process.env.CI ? [] : [[
       '@reportportal/agent-js-playwright',
       {
         apiKey: process.env.RP_API_KEY,
@@ -42,7 +42,7 @@ export default defineConfig({
         ],
         description: 'Test Automation Reports',
       },
-    ],
+    ] as [string, object]]),
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
