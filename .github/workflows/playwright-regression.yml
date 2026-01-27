@@ -30,6 +30,7 @@ jobs:
         CUSTOMER_NAME: ${{ vars.CUSTOMER_NAME }}
         TESTOMATIO: ${{ secrets.TESTOMATIO }}
         TESTOMATIO_TITLE: "Regression: ${{ github.event.pull_request.title }}"
+        RP_API_KEY: ${{ secrets.RP_API_KEY}}
     - name: Upload Test Artifacts
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
