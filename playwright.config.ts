@@ -29,6 +29,20 @@ export default defineConfig({
         apiKey: process.env.TESTOMATIO,
       },
     ],
+    [
+      '@reportportal/agent-js-playwright',
+      {
+        apiKey: process.env.RP_API_KEY,
+        endpoint: 'http://localhost:9005/api/v1',
+        project: 'yajsc2026',
+        launch: 'Smoke & Regression',
+        attributes: [
+          { key: 'env', value: 'local' },
+          { key: 'agent', value: 'playwright' }
+        ],
+        description: 'Test Automation Reports',
+      },
+    ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
