@@ -9,3 +9,11 @@ node_modules/
 
 .env
 playwright/.auth
+
+# ReportPortal infrastructure
+reportportal/docker-compose.yml
+reportportal/data/
+reportportal/elasticsearch/
+reportportal/postgres/
+reportportal/rabbitmq/
+reportportal/storage/

@@ -1,12 +1,10 @@
-name: Automation Tests
+name: Automation Regression Tests
 
 on:
-  workflow_dispatch:
-    inputs:
-      test_grep:
-        description: 'Tags filter (example @smoke|@regression|^[^@]*$)'
-        required: true
-        default: '@smoke|@regression|^[^@]*$'
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
   test:
     timeout-minutes: 60
@@ -23,7 +21,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install chrome --with-deps
     - name: Run Playwright tests
-      run: npx playwright test --grep "${{ github.event.inputs.test_grep }}"
+      run: npx playwright test --project=regression
       env:
         BASE_URL: ${{ vars.BASE_URL }}
         API_URL: ${{ vars.API_URL }}
@@ -31,7 +29,7 @@ jobs:
         CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}
         CUSTOMER_NAME: ${{ vars.CUSTOMER_NAME }}
         TESTOMATIO: ${{ secrets.TESTOMATIO }}
-        TESTOMATIO_TITLE: "Manual Run by ${{ github.actor }} (Filter: ${{ github.event.inputs.test_grep }})"
+        TESTOMATIO_TITLE: "Regression: ${{ github.event.pull_request.title }}"
     - name: Upload Test Artifacts
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
